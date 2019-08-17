@@ -57,16 +57,6 @@ class RegisterForm(forms.ModelForm):
     def clean_name(self):
         return name_validator(self.cleaned_data['name'])
 
-    def save(self, *args, **kwargs):
-
-        new_user = User.objects.create_user(
-            self.cleaned_data.get('email'),
-            self.cleaned_data.get('name'),
-            self.cleaned_data.get('password')
-        )
-
-        return new_user
-
 
 class LoginForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput, max_length=31)
