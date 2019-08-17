@@ -3,7 +3,7 @@ from graphene_django.forms.mutation import DjangoModelFormMutation, DjangoFormMu
 from accounts.forms import RegisterForm, LoginForm, ResetForm, NewPasswordForm
 from .query import UserType
 from accounts.models import User
-from django.contrib.auth import login
+from django.contrib.auth import login,logout
 from django.utils.crypto import get_random_string
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
@@ -108,5 +108,16 @@ class NewPasswordMutation(AccountsMutation, DjangoFormMutation):
         user.save()
         login(info.context, user)
         return NewPasswordMutation(ok=True, user=user)
+
+
+class UserLogoutMutation(graphene.Mutation):
+    class Arguments:
+        pass
+
+    ok = graphene.Boolean()
+
+    def mutate(self, info):
+        logout(info.context)
+        return UserLogoutMutation(ok=True)
 
 

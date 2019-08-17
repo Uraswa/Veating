@@ -12,6 +12,7 @@ class Mutations(graphene.ObjectType):
     userLogin = UserLoginMutation.Field()
     userReset = UserResetPassword.Field()
     userNewPass = NewPasswordMutation.Field()
+    userLogout = UserLogoutMutation.Field()
 
 
 schema = graphene.Schema(query=MainQuery, mutation=Mutations)
