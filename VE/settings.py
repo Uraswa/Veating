@@ -20,9 +20,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-f = open('passwords.txt')
 
-SECRET_KEY = f.readline()
+
+SECRET_KEY = 'i^fskjg(kzvz=!q^sr^rm2pmp-q^@_xn8+*v6t+1xebn@#!kfo'
+f = open('passwords.txt')
 EMAIL_HOST_PASSWORD = f.readline()
 
 f.close()

@@ -58,18 +58,15 @@ class RegisterForm(forms.ModelForm):
         return name_validator(self.cleaned_data['name'])
 
 
-class LoginForm(forms.ModelForm):
+class LoginForm(forms.Form):
+    name = forms.CharField(max_length=40)
     password = forms.CharField(widget=forms.PasswordInput, max_length=31)
-
-    class Meta:
-        model = User
-        fields = ['name']
 
     def clean_password(self):
         password = self.cleaned_data['password']
         name = self.cleaned_data.get('name')
 
-        log_user = authenticate(username=name, password=password)
+        log_user = authenticate(name=name, password=password)
         if log_user is not None:
             if not log_user.is_active:
                 raise forms.ValidationError('Ваш аккаунт был заблокирован')
@@ -77,6 +74,7 @@ class LoginForm(forms.ModelForm):
             elif not log_user.activated:
                 raise forms.ValidationError('Подтвердите свой email, прежде чем авторизоваться')
 
+            self.log_user = log_user
             return password
 
         raise forms.ValidationError('Неверный логин или пароль')

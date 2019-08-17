@@ -80,7 +80,7 @@ class User(AbstractBaseUser):
         unique=True,
     )
 
-    name = models.CharField(unique=True,max_length=255,verbose_name='user name')
+    name = models.CharField(unique=True,max_length=40,verbose_name='user name')
     activated = models.BooleanField(default=False)
     activate_key = models.CharField(max_length=255, null=True, blank=True)
     reg_date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
