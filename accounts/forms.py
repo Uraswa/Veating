@@ -47,12 +47,14 @@ def password_field():
     return forms.CharField(max_length=31, widget=forms.PasswordInput)
 
 
-def find_email(cleaned_data, return_user=False):
+def find_email(cleaned_data, return_user=False, exception=True):
     email = cleaned_data.get('email')
     email_user = User.objects.get_or_none(email=email)
     if email_user is None:
         return email_user if return_user else email
-    raise forms.ValidationError('Пользователь с таким email адресом уже существует')
+    if exception:
+        raise forms.ValidationError('Пользователь с таким email адресом уже существует')
+    return email_user
 
 
 def check_activated(user):
@@ -66,6 +68,9 @@ def check_active(user):
         raise forms.ValidationError('Аккаунт заблокирован!')
     return user
 
+def check_fine_user(user):
+    user = check_active(user)
+    return check_activated(user)
 
 class RegisterForm(forms.ModelForm):
 
@@ -109,16 +114,15 @@ class LoginForm(forms.Form):
 class ResetForm(forms.Form):
 
     email = forms.EmailField()
+    user = None
 
     def clean_email(self):
-
-        user = find_email(self.cleaned_data)
-        user = check_active(user)
-        user = check_activated(user)
-
+        user = find_email(self.cleaned_data, exception=False)
+        user = check_fine_user(user)
         if user.activate_key:
             raise forms.ValidationError('Email письмо уже было отправлено! Проверьте почту или спам')
 
+        self.user = user
         return user.email
 
 

@@ -4,6 +4,10 @@ from accounts.forms import RegisterForm, LoginForm, ResetForm
 from .query import UserType
 from accounts.models import User
 from django.contrib.auth import login
+from django.utils.crypto import get_random_string
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from VE.settings import HOSTNAME, PROTOCOL
 
 
 class AccountsErrorType(graphene.ObjectType):
@@ -61,10 +65,32 @@ class UserLoginMutation(AccountsMutation, DjangoFormMutation):
         return UserLoginMutation(ok=False, errors=[error])
 
 
-class UserResetPassword(DjangoFormMutation):
+class UserResetPassword(AccountsMutation, DjangoFormMutation):
 
     class Meta:
         form_class = ResetForm
 
     def perform_mutate(form, info):
-        pass
+        while True:
+            activation_key = get_random_string(length=60)
+            try:
+                if not User.objects.get(activate_key=activation_key, activated=True):
+                    break
+            except User.DoesNotExist:
+                break
+
+        user = form.user
+        user.activate_key = activation_key
+        user.save()
+        msg = render_to_string('email_templates/reset_pass_email.html',
+                               {'key': activation_key, 'http': PROTOCOL, 'hostname': HOSTNAME})
+
+        send_mail(
+            'Смена пароля',
+            '',
+            'rockavova@gmail.com',
+            [form.cleaned_data['email']],
+            html_message=msg
+        )
+
+        return UserResetPassword(ok=True)
