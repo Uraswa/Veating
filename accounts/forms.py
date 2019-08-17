@@ -43,9 +43,13 @@ def name_validator(name):
     raise forms.ValidationError('Длина имени пользователя должна быть  0 - 40 символ')
 
 
+def password_field():
+    return forms.CharField(max_length=31,widget=forms.PasswordInput)
+
+
 class RegisterForm(forms.ModelForm):
 
-    password = forms.CharField(widget=forms.PasswordInput, max_length=31)
+    password = password_field()
 
     class Meta:
         model = User
@@ -60,7 +64,7 @@ class RegisterForm(forms.ModelForm):
 
 class LoginForm(forms.Form):
     name = forms.CharField(max_length=40)
-    password = forms.CharField(widget=forms.PasswordInput, max_length=31)
+    password = password_field()
 
     def clean_password(self):
         password = self.cleaned_data['password']
@@ -80,20 +84,15 @@ class LoginForm(forms.Form):
         raise forms.ValidationError('Неверный логин или пароль')
 
 
-class ResetForm(forms.ModelForm):
+class ResetForm(forms.Form):
 
-    class Meta:
-        model = User
-        fields = ['email']
+    email = forms.EmailField()
 
     def clean_email(self):
         email = self.cleaned_data['email']
 
         user = User.objects.get_or_none(email=email)
-        if not user:
-            raise forms.ValidationError('Пользователя с таким email адрессом не существует')
-
-        elif not user.activated:
+        if not user or not user.activated:
             raise forms.ValidationError('Пользователя с таким email адрессом не существует')
 
         elif user.activate_key:
@@ -103,8 +102,8 @@ class ResetForm(forms.ModelForm):
 
 
 class NewPasswordForm(forms.Form):
-    password = forms.CharField(max_length=32)
-    password2 = forms.CharField(max_length=32)
+    password = password_field()
+    password2 = password_field()
 
     def clean_password(self):
         return password_validator(self.cleaned_data['password'])
