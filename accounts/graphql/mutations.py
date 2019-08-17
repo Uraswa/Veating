@@ -1,6 +1,6 @@
 import graphene
 from graphene_django.forms.mutation import DjangoModelFormMutation, DjangoFormMutation
-from accounts.forms import RegisterForm, LoginForm, ResetForm
+from accounts.forms import RegisterForm, LoginForm, ResetForm, NewPasswordForm
 from .query import UserType
 from accounts.models import User
 from django.contrib.auth import login
@@ -94,3 +94,19 @@ class UserResetPassword(AccountsMutation, DjangoFormMutation):
         )
 
         return UserResetPassword(ok=True)
+
+
+class NewPasswordMutation(AccountsMutation, DjangoFormMutation):
+
+    class Meta:
+        form_class = NewPasswordForm
+
+    def perform_mutate(form, info):
+        user = form.user
+        user.set_password(form.cleaned_data.get('password'))
+        user.activate_key = ''
+        user.save()
+        login(info.context, user)
+        return NewPasswordMutation(ok=True, user=user)
+
+
