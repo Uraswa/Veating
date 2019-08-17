@@ -44,7 +44,27 @@ def name_validator(name):
 
 
 def password_field():
-    return forms.CharField(max_length=31,widget=forms.PasswordInput)
+    return forms.CharField(max_length=31, widget=forms.PasswordInput)
+
+
+def find_email(cleaned_data, return_user=False):
+    email = cleaned_data.get('email')
+    email_user = User.objects.get_or_none(email=email)
+    if email_user is None:
+        return email_user if return_user else email
+    raise forms.ValidationError('Пользователь с таким email адресом уже существует')
+
+
+def check_activated(user):
+    if not user.activated:
+        raise forms.ValidationError('Аккаунт не активирован, пожалуйста, подтвердите email адрес')
+    return user
+
+
+def check_active(user):
+    if not user.is_active:
+        raise forms.ValidationError('Аккаунт заблокирован!')
+    return user
 
 
 class RegisterForm(forms.ModelForm):
@@ -54,6 +74,9 @@ class RegisterForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['name', 'email']
+
+    def clean_email(self):
+        return find_email(self.cleaned_data)
 
     def clean_password(self):
         return password_validator(self.cleaned_data['password'])
@@ -65,6 +88,7 @@ class RegisterForm(forms.ModelForm):
 class LoginForm(forms.Form):
     name = forms.CharField(max_length=40)
     password = password_field()
+    log_user = None
 
     def clean_password(self):
         password = self.cleaned_data['password']
@@ -72,11 +96,9 @@ class LoginForm(forms.Form):
 
         log_user = authenticate(name=name, password=password)
         if log_user is not None:
-            if not log_user.is_active:
-                raise forms.ValidationError('Ваш аккаунт был заблокирован')
 
-            elif not log_user.activated:
-                raise forms.ValidationError('Подтвердите свой email, прежде чем авторизоваться')
+            log_user = check_activated(log_user)
+            log_user = check_active(log_user)
 
             self.log_user = log_user
             return password
@@ -89,16 +111,15 @@ class ResetForm(forms.Form):
     email = forms.EmailField()
 
     def clean_email(self):
-        email = self.cleaned_data['email']
 
-        user = User.objects.get_or_none(email=email)
-        if not user or not user.activated:
-            raise forms.ValidationError('Пользователя с таким email адрессом не существует')
+        user = find_email(self.cleaned_data)
+        user = check_active(user)
+        user = check_activated(user)
 
-        elif user.activate_key:
+        if user.activate_key:
             raise forms.ValidationError('Email письмо уже было отправлено! Проверьте почту или спам')
 
-        return email
+        return user.email
 
 
 class NewPasswordForm(forms.Form):
