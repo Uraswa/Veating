@@ -11,11 +11,13 @@ class UserType(DjangoObjectType):
 
 class AccountsQuery(graphene.ObjectType):
 
-    logged = graphene.Field(UserType)
     users = graphene.List(UserType)
-
-    def resolve_logged(self, info):
-        return info.context.user
+    user = graphene.Field(UserType, me=graphene.Boolean())
 
     def resolve_users(self, info, **kwargs):
         return User.objects.all()
+
+    def resolve_user(self, info, **kwargs):
+        is_me = kwargs.get('me')
+        if is_me:
+            return info.context.user
