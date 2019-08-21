@@ -1,8 +1,8 @@
 import Wrapper from '../AppContext'
 import React from 'react'
 import pageInit from "../pageInit";
-import { Button } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css'
+import 'semantic-ui-css/semantic.min.css'
+import { Button } from 'semantic-ui-react'
 
 
 const IndexPage = ({cookies}) => {
@@ -10,7 +10,7 @@ const IndexPage = ({cookies}) => {
     return (
         <Wrapper cookies={cookies}>
             <div class="container">
-            <Button variant="warning">P</Button>
+                <Button>Click Here</Button>
             </div>
         </Wrapper>
     );
