@@ -1,7 +1,10 @@
 {
   "en": {
     "translation": {
-      "test_message": "This is a test message"
+      "test_message": "This is a test message",
+      "login": "login",
+      "register": "register",
+      "select_category": "select a category"
     }
   }
 }
