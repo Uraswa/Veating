@@ -1,7 +1,7 @@
 import React, {createContext} from 'react'
 import Layout from "./components/Layout";
 
-const AppContext = createContext({});
+export const AppContext = createContext({});
 
 export default ({ children,cookies }) => {
     return  (

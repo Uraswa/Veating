@@ -1,7 +1,10 @@
+import React,{ useContext,useEffect } from 'react'
 import Link from 'next/link'
 import { withRouter } from 'next/router'
 
-const Header = ({ router: { pathname } }) => (
+
+const Header = ({ router: { pathname } }) => {
+  return (
   <header>
     <Link prefetch href='/'>
       <a className={pathname === '/' ? 'is-active' : ''}>Home</a>
@@ -23,6 +26,6 @@ const Header = ({ router: { pathname } }) => (
       }
     `}</style>
   </header>
-)
+)};
 
 export default withRouter(Header)
