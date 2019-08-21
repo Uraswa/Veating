@@ -1,30 +1,17 @@
 import React,{ useContext,useEffect } from 'react'
 import Link from 'next/link'
 import { withRouter } from 'next/router'
+import TopHeader from "./TopHeader/topHeader"
+import MiddleHeader from './MiddleHeader/MiddleHeader'
+import SiteNavigation from "./SiteNavigation/SiteNavigation";
 
 
 const Header = ({ router: { pathname } }) => {
   return (
   <header>
-    <Link prefetch href='/'>
-      <a className={pathname === '/' ? 'is-active' : ''}>Home</a>
-    </Link>
-    <Link prefetch href='/about'>
-      <a className={pathname === '/about' ? 'is-active' : ''}>About</a>
-    </Link>
-    <style jsx>{`
-      header {
-        margin-bottom: 25px;
-      }
-      a {
-        font-size: 14px;
-        margin-right: 15px;
-        text-decoration: none;
-      }
-      .is-active {
-        text-decoration: underline;
-      }
-    `}</style>
+    <TopHeader/>
+    <MiddleHeader/>
+    <SiteNavigation/>
   </header>
 )};
 

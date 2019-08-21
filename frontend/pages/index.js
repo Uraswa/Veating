@@ -1,24 +1,27 @@
-import Wrapper from '../AppContext'
-import React from 'react'
-import pageInit from "../pageInit";
+import React,{useContext} from 'react'
 import 'semantic-ui-css/semantic.min.css'
 import { Button } from 'semantic-ui-react'
 import i18next from "i18next";
-import useLanguage from "../useLanguage";
+import Layout from "../components/Layout";
+import {AppContext} from '../AppContext'
+import PageInit from '../pageInit';
 
 
-const IndexPage = ({cookies}) => {
-    useLanguage(cookies);
+const IndexPage = () => {
+
+    const context = useContext(AppContext);
+    console.log(context);
 
     return (
-        <Wrapper cookies={cookies}>
+        <Layout>
             <div className="container">
                 <Button>{i18next.t('test_message')}</Button>
             </div>
-        </Wrapper>
+        </Layout>
+
     );
 };
 
-IndexPage.getInitialProps = pageInit;
+IndexPage.getInitialProps = PageInit;
 
 export default IndexPage
