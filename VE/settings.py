@@ -31,7 +31,7 @@ f.close()
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.0.95']
+ALLOWED_HOSTS = ['192.168.0.95', '192.168.0.95:3000', 'localhost', 'localhost:3000']
 HOSTNAME = '192.168.0.95:8000'
 PROTOCOL = 'http://'
 
@@ -40,6 +40,7 @@ PROTOCOL = 'http://'
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'accounts',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -47,14 +48,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'corsheaders',
     'graphene_django'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -62,25 +62,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 CORS_ORIGIN_WHITELIST = [
-    "http://192.168.0.95:8080"
+    "http://192.168.0.95:3000",
+    "http://127.0.0.1:3000",
+    "http://localhost:3000",
+    "http://192.168.0.95:8000"
 ]
-CORS_ALLOW_METHODS = (
-    'GET',
-    'OPTIONS',
-    'POST'
-)
-
-CORS_ALLOW_HEADERS = (
-    'accept',
-    'accept-encoding',
-    'authorization',
-    'content-type',
-    'dnt',
-    'origin',
-    'user-agent',
-    'x-csrftoken',
-    'x-requested-with',
-)
 CORS_ALLOW_CREDENTIALS = True
 
 GRAPHENE = {

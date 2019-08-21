@@ -3,3 +3,5 @@ db.sqlite3
 passwords.txt
 .idea
 *.pyc
+frontend/node_modules
+frontend/.next
