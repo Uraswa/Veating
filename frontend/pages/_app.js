@@ -5,6 +5,7 @@ import withApolloClient from '../lib/with-apollo-client'
 import {AppContext} from "../AppContext";
 import cookie from "js-cookie";
 import i18next from "i18next";
+import Layout from "../components/Layout";
 
 
 class MyApp extends App {
@@ -26,7 +27,9 @@ class MyApp extends App {
     return (
       <ApolloProvider client={apolloClient}>
         <AppContext.Provider value={pageProps.cookies}>
-        <Component {...pageProps} />
+            <Layout>
+                <Component {...pageProps} />
+            </Layout>
         </AppContext.Provider>
       </ApolloProvider>
     )
