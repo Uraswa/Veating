@@ -4,7 +4,15 @@
       "test_message": "Это тестовое сообщение",
       "login": "Войти",
       "register": "Регистрация",
-      "select_category": "Категория"
+      "select_category": "Категория",
+      "search_producs": "Искать товары",
+      "home": "Главная",
+      "blog": "Блог",
+      "furniture": "Мебель",
+      "sofa": "Диван",
+      "chair": "Стул",
+      "table": "стол",
+      "bedroom": "Спальня"
     }
   }
 }

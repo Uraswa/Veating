@@ -2,9 +2,17 @@
   "en": {
     "translation": {
       "test_message": "This is a test message",
-      "login": "login",
-      "register": "register",
-      "select_category": "select a category"
+      "login": "Login",
+      "register": "Register",
+      "select_category": "Select a category",
+      "search_producs": "Search products",
+      "home": "Home",
+      "blog": "Blog",
+      "furniture": "furniture",
+      "sofa": "sofa",
+      "chair": "chair",
+      "table": "table",
+      "bedroom": "bedroom"
     }
   }
 }

@@ -1,0 +1,13 @@
+
+@mixin roboto($f-weight,$f-weight-text)
+	@font-face
+		font-family: 'Roboto'
+		font-style: normal
+		font-weight: $f-weight
+		src: url('./Roboto-#{$f-weight-text}.ttf') format('woff2')
+
+@include roboto(400,'Regular')
+@include roboto(500,'Medium')
+@include roboto(200,'Light')
+@include roboto(700,'Bold')
+@include roboto(900,'Black')

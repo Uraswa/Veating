@@ -6,6 +6,9 @@ import {AppContext} from "../AppContext";
 import cookie from "js-cookie";
 import i18next from "i18next";
 import Layout from "../components/Layout";
+import '../assets/fonts/fonts.sass'
+import '../assets/helpers.sass'
+import 'semantic-ui-css/semantic.min.css'
 
 
 class MyApp extends App {
