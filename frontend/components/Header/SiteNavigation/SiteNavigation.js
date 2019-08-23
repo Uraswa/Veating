@@ -9,13 +9,13 @@ import { useRouter } from 'next/router'
 
 export default (props) => {
     const router = useRouter();
-    console.log(router);
+    
     return (
         <nav id="siteNav" className="d-flex">
             <div className="ui container siteNav__body">
                 <div className="search d-flex align-center">
                     <form action="" className="d-flex ">
-                        <div className="d-flex align-center">
+                        <div className="d-flex align-center" id="search-category-wrapper">
                             <Dropdown
                                 placeholder={i18next.t('select_category')}
                                 id="category-select"
@@ -41,9 +41,11 @@ export default (props) => {
                                     {i18next.t(v.text)}
                                 </li>
 
+
                             </Link>
                         )
                     })}
+
                 </ul>
             </div>
         </nav>

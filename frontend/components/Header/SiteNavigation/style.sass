@@ -3,6 +3,11 @@
   height: 85px
   box-shadow: 0 4px 6px rgba(1, 2, 2, 0.2)
   background-color: #ffffff
+  @media (max-width: 449px)
+    height: 100px
+
+    .container
+      width: 100% !important
 
   .siteNav__body
     display: flex
@@ -14,6 +19,8 @@
       width: 100%
       justify-content: space-between
       margin-left: 95px
+      @media (max-width: 1200px)
+        display: none
       li
         list-style: none
         text-transform: uppercase
@@ -44,10 +51,27 @@
           background-color: $accent
           color: white
     .search
-
+      @media (max-width: 449px)
+        align-items: baseline
+        width: 100%
       form
         border: 1px solid #2a2a2a
         height: 47px
+        @media (max-width: 449px)
+          display: block
+          height: auto
+          width: 100%
+          .d-flex
+            width: 100% !important
+            margin-top: 10px
+
+            input
+              width: 100%
+          #search-category-wrapper
+            border-bottom: 1px solid #2a2a2a
+
+          #category-select
+            width: 100%
         *
           border: none
 
